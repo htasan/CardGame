@@ -147,7 +147,7 @@ public class PlayerTest {
     public void shouldBeAbleToPlay() {
         Player player = createPlayerWithRule(GameRule.builder()
                 .maxHealth(30).cardDamages(TestConstants.DAMAGE_LIST_WITH_FOUR_ELEMENTS)
-                .initialNumberOfCards(1).maxHandSize(5).maxManaSlot(10).bleedOutDamage(1).build());
+                .initialNumberOfCards(1).maxHandSize(5).maxManaSlot(10).initialManaSlot(3).bleedOutDamage(1).build());
         player.prepareForNewTurn();
         assertFalse(player.isUnableToPlay());
     }
