@@ -112,9 +112,9 @@ public class GameTest {
         when(gameController.getCardIndexChoice()).thenReturn(1).thenReturn(0);
         game.play();
         verify(gameController).showStart(game.getActivePlayer());
-        verify(gameController, times(2)).showPlayerInfo(game.getActivePlayer());
+        verify(gameController).showPlayerInfo(game.getActivePlayer());
         verify(gameController, times(0)).showUnableToPlay(game.getActivePlayer());
-        verify(gameController, times(2)).askForMove(game.getActivePlayer());
+        verify(gameController).askForMove(game.getActivePlayer());
         verify(gameController, times(2)).askForCardIndexChoice(1);
         verify(gameController).showCantPlay(game.getActivePlayer());
         verify(gameController).showDamage(game.getOtherPlayer(), 3);

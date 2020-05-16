@@ -56,6 +56,7 @@ public class Game {
             gameController.showDamage(otherPlayer, damage);
         } else {
             gameController.showCantPlay(activePlayer);
+            hit();
         }
     }
 
