@@ -32,7 +32,7 @@ public class TerminalControllerTest {
     }
 
     @Test
-    public void shouldCardIndexChoice() {
+    public void shouldgetCardIndexChoice() {
         System.setIn(in("1\n"));
         assertEquals(0, controller.getCardIndexChoice());
     }

@@ -54,10 +54,10 @@ public class Game {
             int damage = card.getDamage();
             otherPlayer.takeDamage(damage);
             gameController.showDamage(otherPlayer, damage);
-        } else {
-            gameController.showCantPlay(activePlayer);
-            hit();
+            return;
         }
+        gameController.showCantPlay(activePlayer);
+        hit();
     }
 
     private void changeActivePlayer() {
