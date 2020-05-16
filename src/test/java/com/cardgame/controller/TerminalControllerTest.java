@@ -5,13 +5,13 @@ import com.cardgame.util.GameRule;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.*;
 
 import static org.junit.Assert.*;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TerminalControllerTest {
 
     private static final PrintStream SYSTEM_OUT = System.out;
