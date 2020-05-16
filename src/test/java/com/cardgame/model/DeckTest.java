@@ -24,7 +24,7 @@ public class DeckTest {
 
     @Test
     public void shouldNotDrawCardWhenNull() {
-        Deck deck = new Deck(TestConstants.EMPTY_DAMAGE_LIST);
+        Deck deck = new Deck(null);
         assertNull(deck.drawRandomCard());
         assertEquals(0, deck.getSize());
     }
