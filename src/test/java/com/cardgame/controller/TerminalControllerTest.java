@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.*;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -31,38 +32,45 @@ public class TerminalControllerTest {
         return new ByteArrayInputStream(s.getBytes());
     }
 
-    @Test
-    public void shouldgetCardIndexChoice() {
-        System.setIn(in("1\n"));
-        assertEquals(0, controller.getCardIndexChoice());
-    }
-
-    @Test
-    public void shouldCatchInputMismatchException() {
-        System.setIn(in("some string\n"));
-        assertEquals(-1, controller.getCardIndexChoice());
+    private Player createTestPlayer() {
+        return new Player("TestPlayer",
+                GameRule.builder().maxHealth(5).cardDamages(Arrays.asList(1,1,1))
+                        .maxHandSize(3).initialNumberOfCards(3).build());
     }
 
     @Test
     public void shouldReturnHitMove() {
         System.setIn(in("h\n"));
-        assertTrue(controller.isHitMove());
+        assertTrue(controller.getHitMove(createTestPlayer()));
+        assertEquals("TestPlayer, hit or pass? (h/p)\n", out.toString());
     }
 
     @Test
     public void shouldReturnPassMove() {
         System.setIn(in("p\n"));
-        assertFalse(controller.isHitMove());
+        assertFalse(controller.getHitMove(createTestPlayer()));
+        assertEquals("TestPlayer, hit or pass? (h/p)\n", out.toString());
     }
 
     @Test
     public void shouldReturnPassMoveIfInputIsEmpty() {
         System.setIn(in("\n"));
-        assertFalse(controller.isHitMove());
+        assertFalse(controller.getHitMove(createTestPlayer()));
+        assertEquals("TestPlayer, hit or pass? (h/p)\n", out.toString());
     }
 
-    private Player createTestPlayer() {
-        return new Player("TestPlayer", GameRule.builder().build());
+    @Test
+    public void shouldGetCardIndexChoice() {
+        System.setIn(in("1\n"));
+        assertEquals(0, controller.getCardIndexChoice(createTestPlayer()));
+        assertEquals("Choose card (1 to 3)\n", out.toString());
+    }
+
+    @Test
+    public void shouldCatchInputMismatchException() {
+        System.setIn(in("some string\n"));
+        assertEquals(-1, controller.getCardIndexChoice(createTestPlayer()));
+        assertEquals("Choose card (1 to 3)\n", out.toString());
     }
 
     @Test
@@ -74,7 +82,7 @@ public class TerminalControllerTest {
     @Test
     public void showPlayerInfo() {
         controller.showPlayerInfo(createTestPlayer());
-        assertEquals("TestPlayer - Health:0 Mana:0 Hand:[]\n", out.toString());
+        assertEquals("TestPlayer - Health:5 Mana:0 Hand:[1, 1, 1]\n", out.toString());
     }
 
     @Test
@@ -84,21 +92,9 @@ public class TerminalControllerTest {
     }
 
     @Test
-    public void askForMove() {
-        controller.askForMove(createTestPlayer());
-        assertEquals("TestPlayer, hit or pass? (h/p)\n", out.toString());
-    }
-
-    @Test
-    public void askForCardIndexChoice() {
-        controller.askForCardIndexChoice(5);
-        assertEquals("Choose card (1 to 5)\n", out.toString());
-    }
-
-    @Test
     public void showDamage() {
         controller.showDamage(createTestPlayer(), 3);
-        assertEquals("TestPlayer took 3 damage. 0 health left.\n", out.toString());
+        assertEquals("TestPlayer took 3 damage. 5 health left.\n", out.toString());
     }
 
     @Test

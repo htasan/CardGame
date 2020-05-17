@@ -70,14 +70,12 @@ public class GameTest {
         Game game = createGameWithRule(GameRule.builder()
                 .maxHealth(2).cardDamages(TestConstants.DAMAGE_LIST_WITH_ONE_ELEMENT)
                 .maxHandSize(5).initialManaSlot(2).maxManaSlot(10).bleedOutDamage(1).build());
-        when(gameController.isHitMove()).thenReturn(true);
-        when(gameController.getCardIndexChoice()).thenReturn(0);
+        when(gameController.getHitMove(game.getActivePlayer())).thenReturn(true);
+        when(gameController.getCardIndexChoice(game.getActivePlayer())).thenReturn(0);
         game.play();
         verify(gameController).showStart(game.getActivePlayer());
         verify(gameController).showPlayerInfo(game.getActivePlayer());
         verify(gameController, times(0)).showUnableToPlay(game.getActivePlayer());
-        verify(gameController).askForMove(game.getActivePlayer());
-        verify(gameController).askForCardIndexChoice(1);
         verify(gameController).showDamage(game.getOtherPlayer(), 3);
         verify(gameController).showWinner(game.getActivePlayer());
     }
@@ -89,16 +87,14 @@ public class GameTest {
                 .maxHandSize(5).initialManaSlot(2).maxManaSlot(10).build());
         Player player1 = game.getActivePlayer();
         Player player2 = game.getOtherPlayer();
-        when(gameController.isHitMove()).thenReturn(false).thenReturn(true);
-        when(gameController.getCardIndexChoice()).thenReturn(0);
+        when(gameController.getHitMove(player1)).thenReturn(false);
+        when(gameController.getHitMove(player2)).thenReturn(true);
+        when(gameController.getCardIndexChoice(player1)).thenReturn(0);
         game.play();
         verify(gameController).showStart(player1);
         verify(gameController).showPlayerInfo(player1);
         verify(gameController).showPlayerInfo(player2);
         verify(gameController, times(0)).showUnableToPlay(any(Player.class));
-        verify(gameController).askForMove(player1);
-        verify(gameController).askForMove(player2);
-        verify(gameController).askForCardIndexChoice(1);
         verify(gameController).showDamage(player1, 3);
         verify(gameController).showWinner(player2);
     }
@@ -108,14 +104,12 @@ public class GameTest {
         Game game = createGameWithRule(GameRule.builder()
                 .maxHealth(2).cardDamages(TestConstants.DAMAGE_LIST_WITH_ONE_ELEMENT)
                 .maxHandSize(5).initialManaSlot(2).maxManaSlot(10).build());
-        when(gameController.isHitMove()).thenReturn(true).thenReturn(true);
-        when(gameController.getCardIndexChoice()).thenReturn(1).thenReturn(0);
+        when(gameController.getHitMove(game.getActivePlayer())).thenReturn(true).thenReturn(true);
+        when(gameController.getCardIndexChoice(game.getActivePlayer())).thenReturn(1).thenReturn(0);
         game.play();
         verify(gameController).showStart(game.getActivePlayer());
         verify(gameController).showPlayerInfo(game.getActivePlayer());
         verify(gameController, times(0)).showUnableToPlay(game.getActivePlayer());
-        verify(gameController).askForMove(game.getActivePlayer());
-        verify(gameController, times(2)).askForCardIndexChoice(1);
         verify(gameController).showCantPlay(game.getActivePlayer());
         verify(gameController).showDamage(game.getOtherPlayer(), 3);
         verify(gameController).showWinner(game.getActivePlayer());

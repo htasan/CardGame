@@ -39,8 +39,7 @@ public class Game {
     }
 
     private void playTurn() {
-        gameController.askForMove(activePlayer);
-        if(gameController.isHitMove()) {
+        if(gameController.getHitMove(activePlayer)) {
             hit();
         } else {
             changeActivePlayer();
@@ -48,8 +47,7 @@ public class Game {
     }
 
     private void hit() {
-        gameController.askForCardIndexChoice(activePlayer.getHandSize());
-        Card card = activePlayer.playCard(gameController.getCardIndexChoice());
+        Card card = activePlayer.playCard(gameController.getCardIndexChoice(activePlayer));
         if(card != null) {
             int damage = card.getDamage();
             otherPlayer.takeDamage(damage);

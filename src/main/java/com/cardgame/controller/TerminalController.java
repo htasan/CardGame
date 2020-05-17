@@ -10,8 +10,20 @@ import static java.lang.System.out;
 public class TerminalController implements GameController {
 
     @Override
-    public int getCardIndexChoice() {
+    public boolean getHitMove(Player player) {
         Scanner in = new Scanner(System.in);
+        askForMove(player);
+        return in.nextLine().contains("h");
+    }
+
+    private void askForMove(Player player) {
+        out.println(player.getName() + ", hit or pass? (h/p)");
+    }
+
+    @Override
+    public int getCardIndexChoice(Player player) {
+        Scanner in = new Scanner(System.in);
+        askForCardIndexChoice(player.getHandSize());
         int cardIndex;
         try {
             cardIndex = in.nextInt()-1;
@@ -22,10 +34,8 @@ public class TerminalController implements GameController {
         return cardIndex;
     }
 
-    @Override
-    public boolean isHitMove() {
-        Scanner in = new Scanner(System.in);
-        return in.nextLine().contains("h");
+    private void askForCardIndexChoice(int handSize) {
+        out.println("Choose card (1 to " + handSize + ")");
     }
 
     @Override
@@ -41,16 +51,6 @@ public class TerminalController implements GameController {
     @Override
     public void showUnableToPlay(Player player) {
         out.println(player.getName() + " is unable to play.");
-    }
-
-    @Override
-    public void askForMove(Player player) {
-        out.println(player.getName() + ", hit or pass? (h/p)");
-    }
-
-    @Override
-    public void askForCardIndexChoice(int handSize) {
-        out.println("Choose card (1 to " + handSize + ")");
     }
 
     @Override
