@@ -23,7 +23,7 @@ public class TerminalController implements GameController {
     @Override
     public int getCardIndexChoice(Player player) {
         Scanner in = new Scanner(System.in);
-        askForCardIndexChoice(player.getHandSize());
+        askForCardIndexChoice(player);
         int cardIndex;
         try {
             cardIndex = in.nextInt()-1;
@@ -34,8 +34,8 @@ public class TerminalController implements GameController {
         return cardIndex;
     }
 
-    private void askForCardIndexChoice(int handSize) {
-        out.println("Choose card (1 to " + handSize + ")");
+    private void askForCardIndexChoice(Player player) {
+        out.println("Choose card (1 to " + player.getHandSize() + ")");
     }
 
     @Override
