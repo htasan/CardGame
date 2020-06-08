@@ -62,15 +62,6 @@ public class Player {
         return hand.isEmpty() || hasNotEnoughManaToPlayAnyCard();
     }
 
-    public boolean hasNotEnoughManaToPlayAnyCard() {
-        for(Card card : hand) {
-            if(hasEnoughMana(card.getDamage())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public String getName() {
         return name;
     }
@@ -129,6 +120,15 @@ public class Player {
 
     private void spendMana(int manaToSpend) {
         mana -= manaToSpend;
+    }
+
+    private boolean hasNotEnoughManaToPlayAnyCard() {
+        for(Card card : hand) {
+            if(hasEnoughMana(card.getDamage())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     int getManaSlot() {
